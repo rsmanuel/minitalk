@@ -34,7 +34,8 @@ void	handler_sigusr(int signum, siginfo_t *info, void *contexts)
 	(void)info;
 	(void)contexts;
 	if (signum == SIGUSR1)
-		ft_putcolor_fd(ANSI_COLOR_CYAN, "Client: Message received by Server!\n", 1);
+		ft_putcolor_fd(ANSI_COLOR_CYAN,
+			   	"Client: Message received by Server!\n", 1);
 }
 
 int	main(int argc, char **argv)
@@ -45,7 +46,8 @@ int	main(int argc, char **argv)
 	if (argc != 3)
 	{
 		ft_putcolor_fd(ANSI_COLOR_RED, "Invalid arguments.\n", 1);
-		ft_putcolor_fd(ANSI_COLOR_YELLOW, "Correct format: [./client <PID> <message>]\n", 1);
+		ft_putcolor_fd(ANSI_COLOR_YELLOW,
+			"Correct format: [./client <PID> <message>]\n", 1);
 	}
 	else
 	{
