@@ -1,42 +1,47 @@
 #include "minitalk.h"
+#include <stdio.h>
 
-void	handler_sigusr(int signum)
+void handler_sigusr(int signum, siginfo_t *info, void *context)
 {
-	static char	dec = 0xFF;
+	static int	dec = 255;
 	static int	bit = 0;
+	int pid;
 
-	while (dec != 0)
+	if (signum == SIGUSR1)
+		dec = dec ^ (128 >> bit);
+	else if (signum == SIGUSR2)
+		dec = dec | (128 >> bit);
+	bit++;
+	if (bit == 8)
 	{
-		if (signum == SIGUSR1)
+		if (dec == 0)
 		{
-			dec ^= 0x80 >> bit;
-			//dec = dec ^ (128 >> bit);
+			pid = info->si_pid;
+			if (kill(pid, SIGUSR1) == -1)
+				exit(EXIT_FAILURE);
 		}
-		else if (signum == SIGUSR2)
-		{
-			dec |= 0x80 >> bit;
-			//dec = dec | (128 >> bit);
-		}
-		bit++;
-		if (bit == 8)
-		{
-			write(1, &dec, 1);
-			dec = 0xFF;
-			bit = 0;
-		}
+		write(1, &dec, 1);
+		dec = 255;
+		bit = 0;
 	}
+	(void)context;
 }
 
 int	main(void)
 {
 	pid_t	pid;
+	struct sigaction action;
 
 	pid = getpid();
 	write(1, "PID: ", 5);
 	ft_putnbr_fd(pid, 1);
 	write(1, "\n", 1);
-	signal(SIGUSR1, handler_sigusr);
-	signal(SIGUSR2, handler_sigusr);
+	action.sa_flags = SA_SIGINFO;
+    action.sa_handler = NULL;
+    action.sa_sigaction = handler_sigusr;
+    sigaction(SIGUSR1, &action, NULL);
+    sigaction(SIGUSR2, &action, NULL);
 	while (1)
 		pause();
+	return(0);
 }
