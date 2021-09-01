@@ -1,11 +1,11 @@
 #include "minitalk.h"
 #include <stdio.h>
 
-void handler_sigusr(int signum, siginfo_t *info, void *context)
+void	handler_sigusr(int signum, siginfo_t *info, void *context)
 {
 	static int	dec = 255;
 	static int	bit = 0;
-	int pid;
+	int			pid;
 
 	if (signum == SIGUSR1)
 		dec = dec ^ (128 >> bit);
@@ -29,19 +29,19 @@ void handler_sigusr(int signum, siginfo_t *info, void *context)
 
 int	main(void)
 {
-	pid_t	pid;
-	struct sigaction action;
+	pid_t				pid;
+	struct sigaction	action;
 
 	pid = getpid();
 	write(1, "PID: ", 5);
 	ft_putnbr_fd(pid, 1);
 	write(1, "\n", 1);
 	action.sa_flags = SA_SIGINFO;
-    action.sa_handler = NULL;
-    action.sa_sigaction = handler_sigusr;
-    sigaction(SIGUSR1, &action, NULL);
-    sigaction(SIGUSR2, &action, NULL);
+	action.sa_handler = NULL;
+	action.sa_sigaction = handler_sigusr;
+	sigaction(SIGUSR1, &action, NULL);
+	sigaction(SIGUSR2, &action, NULL);
 	while (1)
 		pause();
-	return(0);
+	return (0);
 }
