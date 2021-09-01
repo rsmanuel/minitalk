@@ -1,5 +1,4 @@
 #include "minitalk.h"
-#include <stdio.h>
 
 void	handler_sigusr(int signum, siginfo_t *info, void *context)
 {
@@ -33,7 +32,7 @@ int	main(void)
 	struct sigaction	action;
 
 	pid = getpid();
-	write(1, "PID: ", 5);
+	ft_putcolor_fd(ANSI_COLOR_GREEN, "PID: ", 1);
 	ft_putnbr_fd(pid, 1);
 	write(1, "\n", 1);
 	action.sa_flags = SA_SIGINFO;

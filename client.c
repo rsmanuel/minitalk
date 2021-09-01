@@ -1,5 +1,4 @@
 #include "minitalk.h"
-#include <stdio.h>
 
 void	send_to_server(int pid, char *message)
 {
@@ -35,7 +34,7 @@ void	handler_sigusr(int signum, siginfo_t *info, void *contexts)
 	(void)info;
 	(void)contexts;
 	if (signum == SIGUSR1)
-		ft_putstr_fd("Client: Message received by Server!", 1);
+		ft_putcolor_fd(ANSI_COLOR_CYAN, "Client: Message received by Server!\n", 1);
 }
 
 int	main(int argc, char **argv)
@@ -45,8 +44,8 @@ int	main(int argc, char **argv)
 
 	if (argc != 3)
 	{
-		ft_putstr_fd("Invalid arguments.\n", 1);
-		ft_putstr_fd("Correct format: [./client <PID> <message>]\n", 1);
+		ft_putcolor_fd(ANSI_COLOR_RED, "Invalid arguments.\n", 1);
+		ft_putcolor_fd(ANSI_COLOR_YELLOW, "Correct format: [./client <PID> <message>]\n", 1);
 	}
 	else
 	{

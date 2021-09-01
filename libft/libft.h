@@ -17,6 +17,14 @@
 # include <unistd.h>
 # include <stdlib.h>
 
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
 typedef struct s_list
 {
 	void			*content;
@@ -68,5 +76,6 @@ void			ft_swap_int(int *a, int *b);
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
+void			ft_putcolor_fd(char *color, char *str, int fd);
 
 #endif
